@@ -26,41 +26,16 @@ input[type=checkbox]:checked + div{
     padding:0px;
 }
 
-<!-- div.hidden_cell_holder{ -->
-    <!-- display:flex; -->
-    <!-- flex-direction: row; -->
-    <!-- align-items: stretch; -->
-    <!-- overflow: hidden; -->
-    <!-- -webkit-box-sizing: border-box; -->
-    <!-- -moz-box-sizing: border-box; -->
-    <!-- box-sizing: border-box; -->
-<!--  -->
-<!-- } -->
-
-
 </style>
-
-{#
-<script>
-$(document).ready(function(){
-    $(".clickimage").click(function(){  // This is where it breaks because there's nothing left to use as the toggle.  
-        $(this).next('.hidden_cell').slideToggle();
-    });
-})
-</script>
-#}
 
 {%- endblock header -%}
 
-
 {%- block any_cell -%}
 {%- if 'hidden' in cell.metadata.get("tags",[]) -%}
-<!--<div class="hidden_cell_holder cell border-box-sizing" >-->
     <div class="hidden_cell">
     <input class="clickimage" type="checkbox"></input>
         {{super() }}
     </div>
-<!--</div>-->
 {%- else -%}
 {{ super() }}
 {%- endif -%}
