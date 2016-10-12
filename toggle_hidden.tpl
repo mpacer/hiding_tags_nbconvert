@@ -3,8 +3,6 @@
 
 {%- block header -%}
 {{ super() }}
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script> -->
-
 <style type="text/css">
 div.hidden_cell > div.cell{
     --in-time: .5s;
