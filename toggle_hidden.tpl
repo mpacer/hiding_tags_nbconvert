@@ -8,7 +8,7 @@
 <style type="text/css">
 div.hidden_cell > div.cell{
     --in-time: .5s;
-    transition: max-height var(--in-time) ease-in, padding .0s step-start;
+    transition: max-height var(--in-time) ease-in, padding .0s step-end;
     max-height: 1000px;
 }
 
