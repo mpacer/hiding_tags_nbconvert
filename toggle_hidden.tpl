@@ -7,7 +7,7 @@
 
 <style type="text/css">
 div.hidden_cell > div.cell{
-    transition: max-height .5s ease-out;
+    transition: max-height .5s ease-out, padding .5s step-end;
     max-height: 1000px;
 }
 
@@ -20,7 +20,7 @@ input[type=checkbox]{
 input[type=checkbox]:checked + div{
     overflow:hidden;
     max-height:0px;
-    transition: max-height 1s ease-in;
+    transition: max-height .5s ease-in, padding .5s step-end;
     padding:0px;
 }
 
