@@ -6,15 +6,22 @@
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script> -->
 
 <style type="text/css">
-div.hidden_cell{
-    transition:.25s ease-out;
-    max-height: 9999px;
+div.hidden_cell > div.cell{
+    transition:.5s ease-out;
+    max-height: 1000px;
 }
 
-input[type=checkbox]:checked + div.hidden_cell{
+div.hidden_cell{display: flex;}
+
+input[type=checkbox]{
+    align-self:center;
+}
+
+input[type=checkbox]:checked + div{
     overflow:hidden;
     max-height:0px;
     transition:1s ease-in;
+    padding:0px;
 }
 
 <!-- div.hidden_cell_holder{ -->
@@ -47,8 +54,8 @@ $(document).ready(function(){
 {%- block any_cell -%}
 {%- if 'hidden' in cell.metadata.get("tags",[]) -%}
 <!--<div class="hidden_cell_holder cell border-box-sizing" >-->
-    <input class="clickimage" type="checkbox"></input>
     <div class="hidden_cell">
+    <input class="clickimage" type="checkbox"></input>
         {{super() }}
     </div>
 <!--</div>-->
