@@ -7,7 +7,7 @@
 
 <style type="text/css">
 div.hidden_cell > div.cell{
-    transition:.5s ease-out;
+    transition: max-height .5s ease-out;
     max-height: 1000px;
 }
 
