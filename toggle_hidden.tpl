@@ -21,11 +21,9 @@ div.hidden_cell > div.cell{
     max-height: 1000px;
 }
 
-div.hidden_cell{display: flex;}
+div.hidden_cell{ display: flex; }
 
-input[type=checkbox]{
-    align-self:center;
-}
+input[type=checkbox]{ align-self:center; }
 
 input[type=checkbox]:checked + div{
     overflow:hidden;
