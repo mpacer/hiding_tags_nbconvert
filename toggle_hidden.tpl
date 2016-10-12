@@ -3,7 +3,7 @@
 {%- block any_cell -%}
 {%- if 'hidden' in cell.metadata.get("tags",[]) -%}
     <div class="hidden_cell">
-    <input type="checkbox"></input>
+    <input type="checkbox" checked></input>
         {{super() }}
     </div>
 {%- else -%}
