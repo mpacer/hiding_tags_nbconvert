@@ -20,7 +20,7 @@ input[type=checkbox]{
 input[type=checkbox]:checked + div{
     overflow:hidden;
     max-height:0px;
-    transition:1s ease-in;
+    transition: max-height 1s ease-in;
     padding:0px;
 }
 
