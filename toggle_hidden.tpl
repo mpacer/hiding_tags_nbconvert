@@ -1,8 +1,19 @@
 {%- extends 'full.tpl' -%}
 
+{%- block any_cell -%}
+{%- if 'hidden' in cell.metadata.get("tags",[]) -%}
+    <div class="hidden_cell">
+    <input class="clickimage" type="checkbox"></input>
+        {{super() }}
+    </div>
+{%- else -%}
+{{ super() }}
+{%- endif -%}
+{%- endblock any_cell -%}
 
 {%- block header -%}
 {{ super() }}
+
 <style type="text/css">
 div.hidden_cell > div.cell{
     --in-time: .5s;
@@ -25,17 +36,4 @@ input[type=checkbox]:checked + div{
 }
 
 </style>
-
 {%- endblock header -%}
-
-{%- block any_cell -%}
-{%- if 'hidden' in cell.metadata.get("tags",[]) -%}
-    <div class="hidden_cell">
-    <input class="clickimage" type="checkbox"></input>
-        {{super() }}
-    </div>
-{%- else -%}
-{{ super() }}
-{%- endif -%}
-{%- endblock any_cell -%}
-
