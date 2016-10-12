@@ -7,7 +7,8 @@
 
 <style type="text/css">
 div.hidden_cell > div.cell{
-    transition: max-height .5s ease-out, padding .0s step-end;
+    --in-time: .5s;
+    transition: max-height var(--in-time) ease-in, padding .0s step-start;
     max-height: 1000px;
 }
 
@@ -21,7 +22,7 @@ input[type=checkbox]:checked + div{
     overflow:hidden;
     max-height:0px;
     --out-time: .5s;
-    transition: max-height var(--out-time) ease-in, padding var(--out-time) step-end;
+    transition: max-height var(--out-time) cubic-bezier(0, 0.67, 0.36, 1), padding var(--out-time) step-end;
     padding:0px;
 }
 
