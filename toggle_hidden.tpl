@@ -29,7 +29,7 @@ div.hidden_cell > div.cell{
 
 div.hide_output_cell  div.output_wrapper{
     --in-time: .5s;
-    transition: max-height var(--in-time) ease-in, padding .0s step-end;
+    transition: max-height var(--in-time) ease-in-out, padding .0s step-end;
     max-height: 5000px;
 }
 div.hidden_cell, div.hide_output_cell{ display: flex; }
