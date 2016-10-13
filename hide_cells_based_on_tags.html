@@ -11744,25 +11744,34 @@ div#notebook {
     <!-- End of mathjax configuration --></head>
 
 <style type="text/css">
+
+:root{
+--in-time: .5s;
+--out-time: .5s;
+}
+
 div.hidden_cell > div.cell{
-    --in-time: .5s;
     transition: max-height var(--in-time) ease-in, padding .0s step-end;
     max-height: 5000px;
 }
 
 div.hide_output_cell  div.output_wrapper{
-    --in-time: .5s;
     transition: max-height var(--in-time) ease-in-out, padding .0s step-end;
     max-height: 5000px;
 }
-div.hidden_cell, div.hide_output_cell{ display: flex; }
+
+div.hide_input_cell  div.input{
+    transition: max-height var(--in-time) ease-in-out, padding .0s step-end;
+    max-height: 5000px;
+}
+
+div.hidden_cell, div.hide_output_cell, div.hide_input_cell{ display: flex; }
 
 input[type=checkbox]{ align-self:center; }
 
 input[type=checkbox].hide_cell:checked + div{
     overflow:hidden;
     max-height:0px;
-    --out-time: .5s;
     transition: max-height var(--out-time) cubic-bezier(0, 0.67, 0.36, 1), padding var(--out-time) step-end;
     padding:0px;
 }
@@ -11770,7 +11779,13 @@ input[type=checkbox].hide_cell:checked + div{
 input[type=checkbox].hide_output:checked  + div div.output_wrapper{
     overflow:hidden;
     max-height:0px;
-    --out-time: .5s;
+    transition: max-height var(--out-time) cubic-bezier(0, 0.67, 0.36, 1), padding var(--out-time) step-end;
+    padding:0px;
+}
+
+input[type=checkbox].hide_input:checked  + div div.input{
+    overflow:hidden;
+    max-height:0px;
     transition: max-height var(--out-time) cubic-bezier(0, 0.67, 0.36, 1), padding var(--out-time) step-end;
     padding:0px;
 }
@@ -11787,6 +11802,7 @@ input[type=checkbox].hide_output:checked  + div div.output_wrapper{
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This is a notebook and associated template that allows you to filter output from entire cells by adding the <code>tags: ['hidden']</code> value to cell metadata.</p>
 <p>It is based on <a href="http://www.damian.oquanta.info/posts/mimic-the-ipython-notebook-cell-execution.html">http://www.damian.oquanta.info/posts/mimic-the-ipython-notebook-cell-execution.html</a> which focused instead on just filtering output.</p>
+<p>If you can see a bunch of checked checkmarks on the left, then don't fear, there's a lot more text here that will explain what's going on.</p>
 
 </div>
 </div>
@@ -11796,7 +11812,8 @@ input[type=checkbox].hide_output:checked  + div div.output_wrapper{
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>One of the key differences is that we'll try to do this entirely with CSS rather than relying on javascript.</p>
+<p>We'll do this entirely with CSS rather than relying on javascript.</p>
+<p>This is at the cost of uniform animation smoothness. But it's still useful to see how this approach works.</p>
 
 </div>
 </div>
@@ -11839,20 +11856,23 @@ input[type=checkbox].hide_output:checked  + div div.output_wrapper{
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This the template that we're extending. <code>full.tpl</code> which can be found in <code>nbconvert.templates.html</code>.</p>
-<p>Next, we need to declare the wrapper div that will hold the original contents of the cell (invoked via <code>{{super()}}</code> and our checkbox that we'll be put off to the side of it. We'll be specifying that kind of placement information through the CSS calls.</p>
-<p>Note that the checkbox defaults to being checked.</p>
+<p>This declares which template we are extending, <code>full.tpl</code> which can be found in <code>nbconvert.templates.html</code>.</p>
+<p>Next, we need to declare the wrapper div that will hold the original contents of the cell (invoked via <code>{{super()}}</code> and our checkbox that we'll be put off to the side of it.</p>
+<p>We'll be specifying that kind of placement information through the CSS calls, right now we just need to describe how we're going to change the DOM structure so we can manipulate it safely using CSS selectors.</p>
+<p>Note that the checkboxes default to being checked.</p>
 
 </div>
 </div>
 </div>
-    </div>
+    </div><div class="hide_input_cell">
+    <input class="hide_input" type="checkbox" checked></input>
+        
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>sed -n 3,12p toggle_hidden.tpl
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>sed -n 3,4p toggle_hidden.tpl
 </pre></div>
 
 </div>
@@ -11867,14 +11887,70 @@ input[type=checkbox].hide_output:checked  + div div.output_wrapper{
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>{%- block any_cell -%}
 {%- if &#39;hidden&#39; in cell.metadata.get(&#34;tags&#34;,[]) -%}
-    &lt;div class=&#34;hidden_cell&#34;&gt;
-    &lt;input class=&#34;clickimage&#34; type=&#34;checkbox&#34;&gt;&lt;/input&gt;
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    </div><div class="hidden_cell">
+    <input class="hide_cell" type="checkbox" checked></input>
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here, we're looking every cell individually at the specific level of the cell.</p>
+<p>For each cell, we inspect its metadata. NB: you can view and edit directly by going (inside the notebook) to View → Cell Toolbar → Edit Metadata, which will bring up a toolbar above each cell that looks vaguely like this:
+<img src="attachment://Screen%20Shot%202016-10-12%20at%2019.20.34.png" alt="Screen%20Shot%202016-10-12%20at%2019.20.34.png"></p>
+<p>Now, cell tagging is supported via the existence and population of the <code>"tags":[]</code> object in the metadata JSON.</p>
+<p>In the long run, having a better interface for applying and removing tags will be needed, but for now, if you want to test this, you'll need to edit the metadata by hand.</p>
+<p>We'll use this to enter the case for hiding a cell(<code>hidden</code>) vs. hiding output(<code>hide_output</code>) or hiding input(<code>hide_input</code>). Note, right now that means you can only apply one of these tags at a time. Even if you include both, the <code>elif</code> will just skip over them.</p>
+
+</div>
+</div>
+</div>
+    </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>sed -n 5,23p toggle_hidden.tpl
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>    &lt;div class=&#34;hidden_cell&#34;&gt;
+    &lt;input class=&#34;hide_cell&#34; type=&#34;checkbox&#34; checked&gt;&lt;/input&gt;
+        {{super() }}
+    &lt;/div&gt;
+{%- elif &#39;hide_output&#39; in cell.metadata.get(&#34;tags&#34;,[]) -%}
+    &lt;div class=&#34;hide_output_cell&#34;&gt;
+    &lt;input class=&#34;hide_output&#34; type=&#34;checkbox&#34; checked&gt;&lt;/input&gt;
+        {{super() }}
+    &lt;/div&gt;
+{%- elif &#39;hide_input&#39; in cell.metadata.get(&#34;tags&#34;,[]) -%}
+    &lt;div class=&#34;hide_input_cell&#34;&gt;
+    &lt;input class=&#34;hide_input&#34; type=&#34;checkbox&#34; checked&gt;&lt;/input&gt;
         {{super() }}
     &lt;/div&gt;
 {%- else -%}
-{{ super() }}
+    {{ super() }}
 {%- endif -%}
 {%- endblock any_cell -%}
+
 </pre>
 </div>
 </div>
@@ -11882,26 +11958,32 @@ input[type=checkbox].hide_output:checked  + div div.output_wrapper{
 </div>
 </div>
 
-</div>
+</div><div class="hide_input_cell">
+    <input class="hide_input" type="checkbox" checked></input>
+        
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We had to <em>rewrite</em> the <code>output_group</code> block to encompass it with a new <code>output_hidden</code>-classed <code>div</code>, which we would use in a simple <strong>Javascript</strong> function later.</p>
-<p>Second, we needed to write that little <strong>Javascript</strong> snippet:</p>
+<p>We add a <code>&lt;div&gt;</code> to wrap the checkbox and the cell contents (called via <code>super()</code>).</p>
+<p>The checkbox is an <code>&lt;input&gt;</code> element, which carries its identity as a checkbox in the attribute <code>type="checkbox"</code> along with the default value of <code>checked</code> (note it is not assigned to an attribute).</p>
+<p>All the <code>if</code>/<code>elif</code> logic just specifies what to do depending on which tag is present – i.e., whether hiding is going to be applying to the entire cell, the output, or the input – as they will require slightly different transformations.</p>
+<p>If a cell has no tag that matches our set of hiding tags, then the template just acts as a pass through. Note that  if you don't include <code>super()</code> it will replace the cell contents with nothing.</p>
+<p>Next comes the CSS and that's where the magic happens, so I'll break it up a bit.</p>
 
 </div>
 </div>
-</div><div class="hide_output_cell">
+</div>
+    </div><div class="hide_output_cell">
     <input class="hide_output" type="checkbox" checked></input>
         
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>sed -n 25,29p /media/datos/Ejemplos/toggle.tpl
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>sed -n 24,48p toggle_hidden.tpl
 </pre></div>
 
 </div>
@@ -11914,54 +11996,88 @@ input[type=checkbox].hide_output:checked  + div div.output_wrapper{
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>$(document).ready(function(){
-  $(&#34;.input&#34;).click(function(){
-      $(this).next(&#39;.output_hidden&#39;).slideToggle();
-  });
-})
-</pre>
-</div>
-</div>
+<pre>
+{%- block header -%}
+{{ super() }}
 
-</div>
-</div>
-
-</div>
-    </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Here, we used the <code>.slideToggle()</code> method to display or hide the <code>output_hidden</code>-classed <code>div</code> elements (with a nice sliding motion) when the user makes a click on the input cells. We was using <strong>jQuery</strong>, so we needed to load <strong>jQquery</strong>, ie. using the following line:</p>
-<p><code>&lt;script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"&gt;&lt;/script&gt;</code></p>
-<p>Finally, we added some css to make the <code>output_hidden-classed div</code> not visible (hidden by default):</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>sed -n 18,21p /media/datos/Ejemplos/toggle.tpl
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>.output_hidden {
-  display: none;
-  margin-top: 5px;
+&lt;style type=&#34;text/css&#34;&gt;
+div.hidden_cell &gt; div.cell{
+    --in-time: .5s;
+    transition: max-height var(--in-time) ease-in, padding .0s step-end;
+    max-height: 5000px;
 }
+
+div.hide_output_cell  div.output_wrapper{
+    --in-time: .5s;
+    transition: max-height var(--in-time) ease-in-out, padding .0s step-end;
+    max-height: 5000px;
+}
+
+div.hide_input_cell  div.input{
+    --in-time: .5s;
+    transition: max-height var(--in-time) ease-in-out, padding .0s step-end;
+    max-height: 5000px;
+}
+
+div.hidden_cell, div.hide_output_cell, div.hide_input_cell{ display: flex; }
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    </div><div class="hide_output_cell">
+    <input class="hide_output" type="checkbox" checked></input>
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note how much code repeitition this requires. But that's essentially because we're more or less overlaying a namespace onto the Dom that we can use to filter and apply changes in only some locations.</p>
+<p>Note that in one case (the cell level) we're specifically targeting the immediate child of the wrapper div using the immediate child selector <code>&lt;</code>, whereas in the case with input and output filtering, we need to use a more general descendant selector.</p>
+
+</div>
+</div>
+</div>
+    </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>sed -n 33,48p toggle_hidden.tpl
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>}
+
+div.hide_output_cell  div.output_wrapper{
+    --in-time: .5s;
+    transition: max-height var(--in-time) ease-in-out, padding .0s step-end;
+    max-height: 5000px;
+}
+
+div.hide_input_cell  div.input{
+    --in-time: .5s;
+    transition: max-height var(--in-time) ease-in-out, padding .0s step-end;
+    max-height: 5000px;
+}
+
+div.hidden_cell, div.hide_output_cell, div.hide_input_cell{ display: flex; }
+
 </pre>
 </div>
 </div>
@@ -11975,7 +12091,7 @@ input[type=checkbox].hide_output:checked  + div div.output_wrapper{
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If you put all these snippets together, you will get the following template:</p>
+<p>Now… all of it together gives us:</p>
 
 </div>
 </div>
@@ -11984,10 +12100,10 @@ input[type=checkbox].hide_output:checked  + div div.output_wrapper{
         
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>cat -n /media/datos/Ejemplos/toggle.tpl
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>cat -n toggle_hidden.tpl
 </pre></div>
 
 </div>
@@ -12000,38 +12116,82 @@ input[type=checkbox].hide_output:checked  + div div.output_wrapper{
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>     1	{%- extends &#39;html_full.tpl&#39; -%}
+<pre>     1	{%- extends &#39;full.tpl&#39; -%}
      2	
-     3	{% block output_group %}
-     4	&lt;div class=&#34;output_hidden&#34;&gt;
-     5	{{ super() }}
-     6	&lt;/div&gt;
-     7	{% endblock output_group %}
-     8	
-     9	{%- block header -%}
-    10	{{ super() }}
-    11	
-    12	&lt;script src=&#34;//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js&#34;&gt;&lt;/script&gt;
-    13	
-    14	&lt;style type=&#34;text/css&#34;&gt;
-    15	div.output_wrapper {
-    16	  margin-top: 0px;
-    17	}
-    18	.output_hidden {
-    19	  display: none;
-    20	  margin-top: 5px;
-    21	}
-    22	&lt;/style&gt;
+     3	{%- block any_cell -%}
+     4	{%- if &#39;hidden&#39; in cell.metadata.get(&#34;tags&#34;,[]) -%}
+     5	    &lt;div class=&#34;hidden_cell&#34;&gt;
+     6	    &lt;input class=&#34;hide_cell&#34; type=&#34;checkbox&#34; checked&gt;&lt;/input&gt;
+     7	        {{super() }}
+     8	    &lt;/div&gt;
+     9	{%- elif &#39;hide_output&#39; in cell.metadata.get(&#34;tags&#34;,[]) -%}
+    10	    &lt;div class=&#34;hide_output_cell&#34;&gt;
+    11	    &lt;input class=&#34;hide_output&#34; type=&#34;checkbox&#34; checked&gt;&lt;/input&gt;
+    12	        {{super() }}
+    13	    &lt;/div&gt;
+    14	{%- elif &#39;hide_input&#39; in cell.metadata.get(&#34;tags&#34;,[]) -%}
+    15	    &lt;div class=&#34;hide_input_cell&#34;&gt;
+    16	    &lt;input class=&#34;hide_input&#34; type=&#34;checkbox&#34; checked&gt;&lt;/input&gt;
+    17	        {{super() }}
+    18	    &lt;/div&gt;
+    19	{%- else -%}
+    20	    {{ super() }}
+    21	{%- endif -%}
+    22	{%- endblock any_cell -%}
     23	
-    24	&lt;script&gt;
-    25	$(document).ready(function(){
-    26	  $(&#34;.input&#34;).click(function(){
-    27	      $(this).next(&#39;.output_hidden&#39;).slideToggle();
-    28	  });
-    29	})
-    30	&lt;/script&gt;
-    31	{%- endblock header -%}
-    32	
+    24	
+    25	{%- block header -%}
+    26	{{ super() }}
+    27	
+    28	&lt;style type=&#34;text/css&#34;&gt;
+    29	div.hidden_cell &gt; div.cell{
+    30	    --in-time: .5s;
+    31	    transition: max-height var(--in-time) ease-in, padding .0s step-end;
+    32	    max-height: 5000px;
+    33	}
+    34	
+    35	div.hide_output_cell  div.output_wrapper{
+    36	    --in-time: .5s;
+    37	    transition: max-height var(--in-time) ease-in-out, padding .0s step-end;
+    38	    max-height: 5000px;
+    39	}
+    40	
+    41	div.hide_input_cell  div.input{
+    42	    --in-time: .5s;
+    43	    transition: max-height var(--in-time) ease-in-out, padding .0s step-end;
+    44	    max-height: 5000px;
+    45	}
+    46	
+    47	div.hidden_cell, div.hide_output_cell, div.hide_input_cell{ display: flex; }
+    48	
+    49	input[type=checkbox]{ align-self:center; }
+    50	
+    51	input[type=checkbox].hide_cell:checked + div{
+    52	    overflow:hidden;
+    53	    max-height:0px;
+    54	    --out-time: .5s;
+    55	    transition: max-height var(--out-time) cubic-bezier(0, 0.67, 0.36, 1), padding var(--out-time) step-end;
+    56	    padding:0px;
+    57	}
+    58	
+    59	input[type=checkbox].hide_output:checked  + div div.output_wrapper{
+    60	    overflow:hidden;
+    61	    max-height:0px;
+    62	    --out-time: .5s;
+    63	    transition: max-height var(--out-time) cubic-bezier(0, 0.67, 0.36, 1), padding var(--out-time) step-end;
+    64	    padding:0px;
+    65	}
+    66	
+    67	input[type=checkbox].hide_input:checked  + div div.input{
+    68	    overflow:hidden;
+    69	    max-height:0px;
+    70	    --out-time: .5s;
+    71	    transition: max-height var(--out-time) cubic-bezier(0, 0.67, 0.36, 1), padding var(--out-time) step-end;
+    72	    padding:0px;
+    73	}
+    74	
+    75	&lt;/style&gt;
+    76	{%- endblock header -%}
 </pre>
 </div>
 </div>
@@ -12046,17 +12206,25 @@ input[type=checkbox].hide_output:checked  + div div.output_wrapper{
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>To use it, just add <code>--template toggle</code> to your <code>ipython nbconvert</code> call, ie:</p>
-<p><code>ipython nbconvert your_notebook.ipynb --to html --template toggle --post serve</code></p>
-<p>or add the <code>toggle.tpl</code> file to you <strong>IPython</strong> nbconvert config file.</p>
-<p>If you are reading this line, you probably have already experienced the demo in this post (btw, I like to do demos explaining the tools with the tools themselves).</p>
-<p>Obviously, I quickly implemented this functionality inside <strong>Nikola</strong> and, as a consequence, in <strong>Nikola</strong> master, you now have the possibility to pass an <strong>IPython</strong> config <code>dict</code> to your <strong>Nikola</strong> <code>conf.py</code> file, making the <em>ipynb</em> plugin for <strong>Nikola</strong> more powerful than before ;-)</p>
-<p>To conclude, the possibility to mimic the <strong>IPython</strong> notebook execution is very useful for introductory courses and to publish content in a shorter but more interactive way.</p>
-<p>Hope you enjoy it!</p>
-<p>Damián</p>
+<p>Then it is just a matter of including the <code>.tpl</code> in a location that nbconvert searches when it looks for templates and then including it in a command with the <code>--template toggle_hidden</code> flag when calling <code>jupyter nbconvert</code>.</p>
+<p>For example, if you wanted to transform <code>the_most_hidden_notebook_ever.ipynb</code> (a notebook equipped with cell hiding tags) to html so using this template and immediately open it in a webpage, you would go to the command line and input:</p>
+<p><code>jupyter nbconvert the_most_hidden_notebook_ever.ipynb --to html --template toggle_hidden --post serve</code></p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
     </div>
   </div>
