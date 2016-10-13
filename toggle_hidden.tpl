@@ -5,18 +5,14 @@
     <div class="hidden_cell">
     <input class="hide_cell" type="checkbox" checked></input>
         {{super() }}
-        {{cell.metadata.tags}}
     </div>
-{%- elif 'hideouptut' in cell.metadata.get("tags",[]) -%}
+{%- elif 'hide_output' in cell.metadata.get("tags",[]) -%}
     <div class="hide_output_cell">
     <input class="hide_output" type="checkbox" checked></input>
         {{super() }}
     </div>
 {%- else -%}
-    <div>
     {{ super() }}
-    <p>{{cell.metadata.get("tags")}}</p>
-    </div>
 {%- endif -%}
 {%- endblock any_cell -%}
 
@@ -28,10 +24,15 @@
 div.hidden_cell > div.cell{
     --in-time: .5s;
     transition: max-height var(--in-time) ease-in, padding .0s step-end;
-    max-height: 1000px;
+    max-height: 5000px;
 }
 
-div.hidden_cell{ display: flex; }
+div.hide_output_cell  div.output_wrapper{
+    --in-time: .5s;
+    transition: max-height var(--in-time) ease-in, padding .0s step-end;
+    max-height: 5000px;
+}
+div.hidden_cell, div.hide_output_cell{ display: flex; }
 
 input[type=checkbox]{ align-self:center; }
 
@@ -43,7 +44,7 @@ input[type=checkbox].hide_cell:checked + div{
     padding:0px;
 }
 
-input[type=checkbox].hide_output:checked  + div div.output_group{
+input[type=checkbox].hide_output:checked  + div div.output_wrapper{
     overflow:hidden;
     max-height:0px;
     --out-time: .5s;
