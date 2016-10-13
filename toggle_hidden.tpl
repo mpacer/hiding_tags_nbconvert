@@ -7,7 +7,7 @@
         {{super() }}
         {{cell.metadata.tags}}
     </div>
-{%- elif 'hide_output' in cell.metadata.get("tags",[]) -%}
+{%- elif 'hideouptut' in cell.metadata.get("tags",[]) -%}
     <div class="hide_output_cell">
     <input class="hide_output" type="checkbox" checked></input>
         {{super() }}
@@ -31,11 +31,6 @@ div.hidden_cell > div.cell{
     max-height: 1000px;
 }
 
-div.hide_output_cell  div.output_wrapper{
-    --in-time: .5s;
-    transition: max-height var(--in-time) ease-in, padding .0s step-end;
-    max-height: 1000px;
-}
 div.hidden_cell{ display: flex; }
 
 input[type=checkbox]{ align-self:center; }
@@ -48,7 +43,7 @@ input[type=checkbox].hide_cell:checked + div{
     padding:0px;
 }
 
-input[type=checkbox].hide_output:checked  + div div.output_wrapper{
+input[type=checkbox].hide_output:checked  + div div.output_group{
     overflow:hidden;
     max-height:0px;
     --out-time: .5s;
