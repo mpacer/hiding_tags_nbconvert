@@ -26,20 +26,23 @@
 {{ super() }}
 
 <style type="text/css">
+
+:root{
+--in-time: .5s;
+--out-time: .5s;
+}
+
 div.hidden_cell > div.cell{
-    --in-time: .5s;
     transition: max-height var(--in-time) ease-in, padding .0s step-end;
     max-height: 5000px;
 }
 
 div.hide_output_cell  div.output_wrapper{
-    --in-time: .5s;
     transition: max-height var(--in-time) ease-in-out, padding .0s step-end;
     max-height: 5000px;
 }
 
 div.hide_input_cell  div.input{
-    --in-time: .5s;
     transition: max-height var(--in-time) ease-in-out, padding .0s step-end;
     max-height: 5000px;
 }
@@ -51,7 +54,6 @@ input[type=checkbox]{ align-self:center; }
 input[type=checkbox].hide_cell:checked + div{
     overflow:hidden;
     max-height:0px;
-    --out-time: .5s;
     transition: max-height var(--out-time) cubic-bezier(0, 0.67, 0.36, 1), padding var(--out-time) step-end;
     padding:0px;
 }
@@ -59,7 +61,6 @@ input[type=checkbox].hide_cell:checked + div{
 input[type=checkbox].hide_output:checked  + div div.output_wrapper{
     overflow:hidden;
     max-height:0px;
-    --out-time: .5s;
     transition: max-height var(--out-time) cubic-bezier(0, 0.67, 0.36, 1), padding var(--out-time) step-end;
     padding:0px;
 }
@@ -67,7 +68,6 @@ input[type=checkbox].hide_output:checked  + div div.output_wrapper{
 input[type=checkbox].hide_input:checked  + div div.input{
     overflow:hidden;
     max-height:0px;
-    --out-time: .5s;
     transition: max-height var(--out-time) cubic-bezier(0, 0.67, 0.36, 1), padding var(--out-time) step-end;
     padding:0px;
 }
