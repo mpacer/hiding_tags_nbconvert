@@ -3,13 +3,19 @@
 {%- block any_cell -%}
 {%- if 'hidden' in cell.metadata.get("tags",[]) -%}
     <div class="hidden_cell">
-    <input type="checkbox" checked></input>
+    <input class="hide_cell" type="checkbox" checked></input>
+        {{super() }}
+    </div>
+{%- elif 'hide_ouptut' in cell.metadata.get("tags",[]) -%}
+    <div class="hide_output_cell">
+    <input class="hide_output" type="checkbox" checked></input>
         {{super() }}
     </div>
 {%- else -%}
 {{ super() }}
 {%- endif -%}
 {%- endblock any_cell -%}
+
 
 {%- block header -%}
 {{ super() }}
@@ -25,7 +31,15 @@ div.hidden_cell{ display: flex; }
 
 input[type=checkbox]{ align-self:center; }
 
-input[type=checkbox]:checked + div{
+input[type=checkbox].hide_cell:checked + div{
+    overflow:hidden;
+    max-height:0px;
+    --out-time: .5s;
+    transition: max-height var(--out-time) cubic-bezier(0, 0.67, 0.36, 1), padding var(--out-time) step-end;
+    padding:0px;
+}
+
+input[type=checkbox].hide_output:checked  + div div.output_group{
     overflow:hidden;
     max-height:0px;
     --out-time: .5s;
