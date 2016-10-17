@@ -39,16 +39,25 @@
 
 div.hidden_cell > div.cell{
     transition: max-height var(--in-time) var(--transition-path-in), padding .0s step-end;
+    -webkit-transition: max-height var(--in-time) var(--transition-path-in), padding .0s step-end;
+    -moz-transition: max-height var(--in-time) var(--transition-path-in), padding .0s step-end;
+    -o-transition: max-height var(--in-time) var(--transition-path-in), padding .0s step-end;
     max-height: var(--max-height-big);
 }
 
 div.hide_output_cell  div.output_wrapper{
     transition: max-height var(--in-time) var(--transition-path-in), padding .0s step-end;
+    -webkit-transition: max-height var(--in-time) var(--transition-path-in), padding .0s step-end;
+    -moz-transition: max-height var(--in-time) var(--transition-path-in), padding .0s step-end;
+    -o-transition: max-height var(--in-time) var(--transition-path-in), padding .0s step-end;
     max-height: var(--max-height-big);
 }
 
 div.hide_input_cell  div.input{
     transition: max-height var(--in-time) var(--transition-path-in), padding .0s step-end;
+    -webkit-transition: max-height var(--in-time) var(--transition-path-in), padding .0s step-end;
+    -moz-transition: max-height var(--in-time) var(--transition-path-in), padding .0s step-end;
+    -o-transition: max-height var(--in-time) var(--transition-path-in), padding .0s step-end;
     max-height: var(--max-height-big);
 }
 
@@ -60,6 +69,9 @@ input[type=checkbox].hide_cell:checked + div{
     overflow:hidden;
     max-height: var(--max-height-small);
     transition: max-height var(--out-time) var(--transition-path-out), padding var(--out-time) step-end;
+    -webkit-transition: max-height var(--out-time) var(--transition-path-out), padding var(--out-time) step-end;
+    -moz-transition: max-height var(--out-time) var(--transition-path-out), padding var(--out-time) step-end;
+    -o-transition: max-height var(--out-time) var(--transition-path-out), padding var(--out-time) step-end;
     padding: var(--padding-hidden);
 }
 
@@ -67,6 +79,9 @@ input[type=checkbox].hide_output:checked  + div div.output_wrapper{
     overflow:hidden;
     max-height: var(--max-height-small);
     transition: max-height var(--out-time) var(--transition-path-out), padding var(--out-time) step-end;
+    -webkit-transition: max-height var(--out-time) var(--transition-path-out), padding var(--out-time) step-end;
+    -moz-transition: max-height var(--out-time) var(--transition-path-out), padding var(--out-time) step-end;
+    -o-transition: max-height var(--out-time) var(--transition-path-out), padding var(--out-time) step-end;
     padding: var(--padding-hidden);
 }
 
@@ -74,6 +89,9 @@ input[type=checkbox].hide_input:checked  + div div.input{
     overflow:hidden;
     max-height: var(--max-height-small);
     transition: max-height var(--out-time) var(--transition-path-out), padding var(--out-time) step-end;
+    -webkit-transition: max-height var(--out-time) var(--transition-path-out), padding var(--out-time) step-end;
+    -moz-transition: max-height var(--out-time) var(--transition-path-out), padding var(--out-time) step-end;
+    -o-transition: max-height var(--out-time) var(--transition-path-out), padding var(--out-time) step-end;
     padding: var(--padding-hidden);
 }
 
