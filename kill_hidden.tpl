@@ -11,6 +11,7 @@
 {%- if 'hide_input' in cell.metadata.get("tags",[]) and cell.cell_type == 'code'-%}
 {%- else -%}
     {{ super() }}
+{%- endif -%}
 {%-endblock input_group -%}
 
 
@@ -18,4 +19,5 @@
 {%- if 'hide_output' in cell.metadata.get("tags",[]) and cell.cell_type == 'code'-%}
 {%- else -%}
     {{ super() }}
-{%-endblock input_group -%}
+{%- endif -%}
+{%-endblock output_group -%}
