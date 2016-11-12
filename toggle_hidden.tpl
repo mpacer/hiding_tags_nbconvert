@@ -1,17 +1,17 @@
 {%- extends 'full.tpl' -%}
 
 {%- block any_cell -%}
-{%- if 'hidden' in cell.metadata.get("tags",[]) -%}
+{%- if 'jupyter:hide_cell' in cell.metadata.get("tags",[]) -%}
     <div class="hidden_cell">
     <input class="hide_cell" type="checkbox" checked></input>
         {{super() }}
     </div>
-{%- elif 'hide_output' in cell.metadata.get("tags",[]) and cell.cell_type == 'code'-%}
+{%- elif 'jupyter:hide_output' in cell.metadata.get("tags",[]) and cell.cell_type == 'code'-%}
     <div class="hide_output_cell">
     <input class="hide_output" type="checkbox" checked></input>
         {{super() }}
     </div>
-{%- elif 'hide_input' in cell.metadata.get("tags",[]) and cell.cell_type == 'code'-%}
+{%- elif 'jupyter:hide_input' in cell.metadata.get("tags",[]) and cell.cell_type == 'code'-%}
     <div class="hide_input_cell">
     <input class="hide_input" type="checkbox" checked></input>
         {{super() }}
