@@ -11823,7 +11823,7 @@ input[type=checkbox].hide_input:checked  + div div.input{
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This is a notebook and associated template that allows you to filter output from entire cells by adding the <code>tags: ['hidden']</code> value to cell metadata.</p>
+<p>This is a notebook and associated template that allows you to filter cells, input and output by adding the <code>tags: ['jupyter:hide_cell', 'jupyter:hide_input', 'jupyter:hide_output']</code> values(respectively) to cell metadata.</p>
 <p>It is based on <a href="http://www.damian.oquanta.info/posts/mimic-the-ipython-notebook-cell-execution.html">http://www.damian.oquanta.info/posts/mimic-the-ipython-notebook-cell-execution.html</a> which focused instead on just filtering output.</p>
 <p>If you can see a bunch of checked checkmarks on the left, then don't fear, there's a lot more text here that will explain what's going on.</p>
 
@@ -11931,7 +11931,7 @@ input[type=checkbox].hide_input:checked  + div div.input{
 <p><img src="attachment://ScreenShot2016-10-12at19.20.34.png" alt="ScreenShot2016-10-12at19.20.34.png"></p>
 <p>Now, cell tagging is supported via the existence and population of the <code>"tags":[]</code> object in the metadata JSON.</p>
 <p>In the long run, having a better interface for applying and removing tags will be needed, but for now, if you want to test this, you'll need to edit the metadata by hand.</p>
-<p>We'll use this to enter the case for hiding a cell(<code>hidden</code>) vs. hiding output(<code>hide_output</code>) or hiding input(<code>hide_input</code>). Note, right now that means you can only apply one of these tags at a time. Even if you include both, the <code>elif</code> will just skip over them.</p>
+<p>We'll use this to enter the case for hiding a cell(<code>jupyter:hide_cell</code>) vs. hiding output(<code>jupyter:hide_output</code>) or hiding input(<code>jupyter:hide_input</code>). Note, right now that means you can only apply one of these tags at a time. Even if you include both, the <code>elif</code> will just skip over them.</p>
 
 </div>
 </div>
